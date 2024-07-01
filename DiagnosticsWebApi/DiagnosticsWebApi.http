@@ -1,0 +1,6 @@
+@DiagnosticsWebApi_HostAddress = http://localhost:5201
+
+GET {{DiagnosticsWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
