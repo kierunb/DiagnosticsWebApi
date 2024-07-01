@@ -1,0 +1,125 @@
+﻿// diagnostics resources:
+https://learn.microsoft.com/en-us/dotnet/core/diagnostics/
+https://github.com/dotnet/diagnostics
+https://learn.microsoft.com/en-us/aspnet/core/performance/memory?view=aspnetcore-8.0
+https://github.com/Maoni0/mem-doc/blob/master/doc/.NETMemoryPerformanceAnalysis.md
+https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/
+
+
+// Memory leak diagnostics
+dotnet-counters monitor --process-id <PID> --refresh-interval 2 --counters System.Runtime,Microsoft.AspNetCore.Hosting
+
+// generate (reasonble) load
+hey -c 50 -z 10s https://localhost:7210/user-profile
+
+// Collecting a memory dump
+dotnet-dump collect --process-id <PID> --type Full
+
+// Collecting a gcdump
+dotnet-gcdump collect --process-id <PID>
+
+// analyzing a dump
+dotnet-dump analyze <dump-file>
+
+
+// dotnet-trace
+dotnet-trace list-profiles
+dotnet-trace collect --process-id <PID>	--profile gc-verbose	// 'gc-collect' for low-overhead tracing
+
+dotnet-trace collect --process-id <PID> --profile cpu-sampling	// profile for high cpu usage
+dotnet-trace collect -p <PID> --providers Microsoft-DotNETCore-SampleProfiler
+
+dotnet-trace convert [<input-filename>] [--format <Chromium|NetTrace|Speedscope>]
+
+// dotnet-stack - list thread stack traces
+dotnet-stack report -p <PID>
+
+tools & flame graphs:
+	- perfview
+	- chrome/edge: about:tracing
+	- https://www.speedscope.app/
+
+// WinDbg:
+// https://learn.microsoft.com/en-us/dotnet/core/diagnostics/sos-debugging-extension
+
+SOS Commands:
+!verifyheap			// Checks the GC heap for signs of corruption.
+!analyzeoom			// If an actual OutOfMemoryException was thrown, show why
+!eeheap	-gc			// Prints information about CLR’s native heaps
+!dumpheap -stat		// Prints type statistics of the managed heap
+!maddress -stat		// Attempts to group memory by kind, heuristically
+
+!heapstat			// Displays the generation sizes for each heap and the total free space in each generation on each heap
+!gcheapstat			// Displays statistics about garbage collector.
+!gcwhere			// Displays the location in the GC heap of the specified address.
+
+!printexception		// Displays and formats fields of any object derived from the Exception class at the specified address.
+
+WinDbg Commands:
+!address -summary	// Prints stack roots as the GC sees them 
+.dumpdebug	   		// Contains streams of system counters (Windows dumps only)
+
+!eeheap -gc
+
+// get all object on the Managed Heap
+!dumpheap -stat
+!dumpheap -stat -live
+!dumpheap -stat  -mt -min 85000
+
+!finalizequeue		// Displays all objects scheduled for finalization.
+
+// analysis of high CPU usage
+!runaway			// Displays the thread that has consumed the most CPU time
+
+perfview (.nettrace) CPU analysis
+-> GroupPats: [group module entries]  {%}!=>module $1
+-> FoldPats: ^STARTING TASK
+-> CPU_TIME -> Callers, Flame Graph 
+
+// analysis of deadlock ot threadpool starvation
+!threads		// Display all managed threads in the process
+!threadpool		// Display managed thread pool information
+!clrstack		// Display a stack trace of managed code only for current thread
+!clrstack -all	// Display all managed stacks
+~~[<TID>]s
+
+!syncblk		// Display information about the sync block using monitors (for threads)
+!dumpasync		// Displays info about async state machines on the garbage-collected heap.
+!dumpasync -stacks -tasks
+
+// more samples:
+https://github.com/dotnet/samples/tree/main/core/diagnostics/DiagnosticScenarios
+https://github.com/mjrousos/DotNetDiagnosticsSamples
+
+// tools:
+
+	• dotnet-counters
+		○ https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-counters
+	• dotnet-trace
+		○ https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-trace
+	• dotnet-dump
+		○ https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-dump
+	• dotent-gcdump
+		○ https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-gcdump
+	• dotnet-stack
+		○ https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-stack
+	• dotnet-sos
+		○ https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-sos
+	• dotnet-monitor
+		○ https://learn.microsoft.com/en-us/dotnet/core/diagnostics/dotnet-monitor
+	• Procdump
+		○ https://learn.microsoft.com/en-us/sysinternals/downloads/procdump
+	• PerfView
+		○ https://github.com/microsoft/perfview
+	• WinDbg
+		○ https://store.rg-adguard.net/
+		○ ProductId: 9pgjgd53tn86
+
+// performance testing tools:
+
+	• hey
+		○ https://github.com/rakyll/hey
+	• bombardier
+		○ https://github.com/codesenberg/bombardier
+	• K6
+		○ https://github.com/grafana/k6
