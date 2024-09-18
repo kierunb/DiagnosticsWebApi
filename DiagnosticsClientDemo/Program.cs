@@ -1,11 +1,12 @@
 ﻿// docs: https://learn.microsoft.com/en-us/dotnet/core/diagnostics/diagnostics-client-library
 using Microsoft.Diagnostics.NETCore.Client;
-using System.Diagnostics.Tracing;
-using System.Diagnostics;
-using Microsoft.Diagnostics.Tracing.Parsers;
 using Microsoft.Diagnostics.Tracing;
+using Microsoft.Diagnostics.Tracing.Parsers;
+using System.Diagnostics.Tracing;
 
-Console.WriteLine("Hello in Diagnostics Client (Microsoft.Diagnostics.NETCore.Client).");
+Console.WriteLine("Hello in EvenPipes and Diagnostics Client (Microsoft.Diagnostics.NETCore.Client).");
+
+// Attach to a process and print out all GC events
 
 // PROVIDE VALID PROCESS ID
 int processPid = 41108;
