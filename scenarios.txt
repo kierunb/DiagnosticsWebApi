@@ -5,12 +5,18 @@ https://learn.microsoft.com/en-us/aspnet/core/performance/memory?view=aspnetcore
 https://github.com/Maoni0/mem-doc/blob/master/doc/.NETMemoryPerformanceAnalysis.md
 https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/
 
+// Garbage collection work visualzation (MemoryLeak project):
+GC Chart:	https://localhost:7212/	
+Sceanrios:	https://localhost:7212/swagger/ 
 
-// Memory leak diagnostics
+// Veridy & test memory leaks, thread-pool exhaustion, high CPU usage, deadlocks, etc.
 dotnet-counters monitor --process-id <PID> --refresh-interval 2 --counters System.Runtime,Microsoft.AspNetCore.Hosting
 
-// generate (reasonble) load
+// generate (reasonble) load (memory leak scenario)
 hey -c 50 -z 10s https://localhost:7210/user-profile
+
+// generate (reasonble) load (thread-pool exhaustion scenario)
+hey -c 100 -z 60s https://localhost:5001/ProductCategory
 
 // Collecting a memory dump
 dotnet-dump collect --process-id <PID> --type Full
@@ -26,10 +32,15 @@ dotnet-dump analyze <dump-file>
 dotnet-trace list-profiles
 dotnet-trace collect --process-id <PID>	--profile gc-verbose	// 'gc-collect' for low-overhead tracing
 
-dotnet-trace collect --process-id <PID> --profile cpu-sampling	// profile for high cpu usage
+dotnet-trace collect --process-id <PID> --profile cpu-sampling	// profile for high cpu usage, thread exhaustion and/or general scenarios
+
+// analyze high cpu usage
 dotnet-trace collect -p <PID> --providers Microsoft-DotNETCore-SampleProfiler
 
 dotnet-trace convert [<input-filename>] [--format <Chromium|NetTrace|Speedscope>]
+PerfView: “AnyStack” View, Type “Managed”
+
+
 
 // dotnet-stack - list thread stack traces
 dotnet-stack report -p <PID>
@@ -83,6 +94,9 @@ perfview (.nettrace) CPU analysis
 !clrstack -all	// Display all managed stacks
 ~~[<TID>]s
 
+// also: 
+dotnet-stack report --process-id <PID>
+
 !syncblk		// Display information about the sync block using monitors (for threads)
 !dumpasync		// Displays info about async state machines on the garbage-collected heap.
 !dumpasync -stacks -tasks
@@ -112,8 +126,8 @@ https://github.com/mjrousos/DotNetDiagnosticsSamples
 	• PerfView
 		○ https://github.com/microsoft/perfview
 	• WinDbg
-		○ https://store.rg-adguard.net/
-		○ ProductId: 9pgjgd53tn86
+		○ https://aka.ms/windbg/download 
+		○ https://store.rg-adguard.net/ (ProductId: 9pgjgd53tn86)
 
 // performance testing tools:
 
