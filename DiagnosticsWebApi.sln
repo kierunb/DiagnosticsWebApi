@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiagnosticsClientDemo", "Di
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadPoolExhaustion", "ThreadPoolExhaustion\ThreadPoolExhaustion.csproj", "{1F0CCE3A-6EE2-4C71-A9A0-645D025AFE31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSourceDemo", "EventSourceDemo\EventSourceDemo.csproj", "{AA16D637-9660-4451-A82B-46DA94449155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiagnosticSourceDemo", "DiagnosticSourceDemo\DiagnosticSourceDemo.csproj", "{172F2283-ACB2-4B7D-8E42-22330C2924F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{1F0CCE3A-6EE2-4C71-A9A0-645D025AFE31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F0CCE3A-6EE2-4C71-A9A0-645D025AFE31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F0CCE3A-6EE2-4C71-A9A0-645D025AFE31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA16D637-9660-4451-A82B-46DA94449155}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA16D637-9660-4451-A82B-46DA94449155}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA16D637-9660-4451-A82B-46DA94449155}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA16D637-9660-4451-A82B-46DA94449155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{172F2283-ACB2-4B7D-8E42-22330C2924F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{172F2283-ACB2-4B7D-8E42-22330C2924F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{172F2283-ACB2-4B7D-8E42-22330C2924F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{172F2283-ACB2-4B7D-8E42-22330C2924F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

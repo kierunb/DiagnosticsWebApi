@@ -1,5 +1,4 @@
 ﻿using DiagnosticsWebApi.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiagnosticsWebApi.Controllers

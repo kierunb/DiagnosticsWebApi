@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Buffers;
 
 namespace DiagnosticsWebApi.Controllers
@@ -65,7 +64,7 @@ namespace DiagnosticsWebApi.Controllers
             {
                 // Arrays from ArrayPools must be returned once they're no longer needed
                 ArrayPool<byte>.Shared.Return(imageBytes);
-                
+
             }
         }
     }

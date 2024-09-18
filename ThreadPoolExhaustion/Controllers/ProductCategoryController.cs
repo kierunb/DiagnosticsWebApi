@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using TargetApp.Models;
 
 namespace TargetApp.Controllers
@@ -30,7 +30,7 @@ namespace TargetApp.Controllers
         public ActionResult<IEnumerable<ProductCategory>> Get(int id)
         {
             var category = _repository.GetCategory(id);
-            
+
             if (category is null)
             {
                 return NotFound();
